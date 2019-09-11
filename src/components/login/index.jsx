@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button } from 'antd';
+import { Form, Input, Icon, Button, message } from 'antd';
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 import logo from './logo.png';
 import './index.less';
@@ -39,6 +41,70 @@ class Login extends Component {
     callback();
   };
 
+  /**
+   * 登录函数
+   */
+  login = (e) => {
+    // 禁止默认行为
+    e.preventDefault();
+    // 校验表单
+    this.props.form.validateFields((error, values) => {
+      /*
+        error 校验失败错误
+          校验失败就是 {}
+          校验通过就是 null
+        values 所有表单项的值
+       */
+      if (!error) {
+        // 校验通过
+        // console.log(values);
+        // 获取表单项的值
+        const { username, password } = values;
+        // 发送请求，请求登录
+        /*
+          发送请求，遇见了跨域问题：（当前服务器是3000，要访问的服务器5000）
+          解决：
+            1. jsonp 现在不适用
+            2. cors 修改服务器代码
+            3. proxy 服务器代理模式 （正向代理）
+              正向代理
+              反向代理（nginx）
+
+              "proxy": "http://localhost:5000" 开启代理服务器
+
+              http://localhost:5000 --> 就是目标服务器地址
+
+              工作原理：
+                1. 浏览器发送请求给代理服务器（这时候因为端口号一致，所以没有跨域问题）
+                2. 代理服务器将请求转发给目标服务器（因为服务器和服务器直接通信，没有跨域问题）
+                3. 目标服务器返回响应给代理服务器
+                4. 代理服务器返回响应给浏览器
+              缺点：
+                1. 只能用于开发环境，不能用于上线环境
+         */
+        axios.post('http://localhost:3000/api/login', { username, password })
+          .then((response) => {
+            // 请求成功
+            // 判断status的值，来决定是否登录成功
+            if (response.data.status === 0) {
+              // 登录成功
+              message.success('登录成功~');
+              // 跳转到 / 路由
+              // return <Redirect to="/"/>
+
+            } else {
+              // 登录失败
+              message.error(response.data.msg);
+            }
+          })
+          .catch((error) => {
+            // 请求失败 - 登录失败
+            message.error('未知错误，请联系管理员~');
+          })
+      }
+    })
+  };
+
   render() {
     // getFieldDecorator 专门表单校验的方法。 高阶组件
     const { getFieldDecorator } = this.props.form;
@@ -50,7 +116,7 @@ class Login extends Component {
       </header>
       <section className="login-section">
         <h3>用户登录</h3>
-        <Form>
+        <Form onSubmit={this.login}>
           <Form.Item>
             {
               getFieldDecorator(

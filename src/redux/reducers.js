@@ -3,13 +3,23 @@
  */
 import { combineReducers } from 'redux';
 
-function xxx(prevState = {}, action) {
+import { SAVE_USER } from './action-types';
+
+// 初始化数据
+const initUser = {
+  user: {},
+  token: ''
+};
+
+function user(prevState = initUser, action) {
   switch (action.type) {
+    case SAVE_USER :
+      return action.data;
     default :
       return prevState;
   }
 }
 
 export default combineReducers({
-  xxx
+  user
 })

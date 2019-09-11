@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, message } from 'antd';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+
+import { connect } from 'react-redux';
+import { saveUser } from '@redux/action-creators';
 
 import logo from './logo.png';
 import './index.less';
 
+@connect(
+  null,
+  { saveUser }
+)
 @Form.create()
 class Login extends Component {
 
@@ -83,18 +89,25 @@ class Login extends Component {
                 1. 只能用于开发环境，不能用于上线环境
          */
         axios.post('http://localhost:3000/api/login', { username, password })
-          .then((response) => {
+          .then(({data}) => {
+            // {data} --> 对response解构赋值
             // 请求成功
             // 判断status的值，来决定是否登录成功
-            if (response.data.status === 0) {
+            if (data.status === 0) {
               // 登录成功
               message.success('登录成功~');
+              // 保存用户数据  redux  localStorage / sessionStorage
+              this.props.saveUser(data.data);
               // 跳转到 / 路由
+              /*
+                <Redirect to="/"/> 用于再render方法中进行重定向
+                this.props.history.replace('/'); 用于非render方法中进行路由跳转
+               */
               // return <Redirect to="/"/>
-
+              this.props.history.replace('/');
             } else {
               // 登录失败
-              message.error(response.data.msg);
+              message.error(data.msg);
             }
           })
           .catch((error) => {

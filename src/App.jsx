@@ -10,13 +10,14 @@ class App extends Component {
       {/*  <Route path="/" exact component={Home}/>*/}
       {/*  <Route path="/login" exact component={Login}/>*/}
       {/*</Switch>*/}
-
-      {
-        routes.map((route, index) => {
-          // return <Route path={route.path} exact={route.exact} component={route.component}/>
-          return <Route {...route} key={index}/>;
-        })
-      }
+      <Switch>
+        {
+          routes.map((route, index) => {
+            // return <Route path={route.path} exact={route.exact} component={route.component}/>
+            return <Route {...route} key={index}/>;
+          })
+        }
+      </Switch>
     </Router>;
   }
 }

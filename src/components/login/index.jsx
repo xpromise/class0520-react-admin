@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, message } from 'antd';
-import axios from 'axios';
+
+import { reqLogin } from '../../api';
 
 import { connect } from 'react-redux';
 import { saveUser } from '@redux/action-creators';
@@ -88,7 +89,7 @@ class Login extends Component {
               缺点：
                 1. 只能用于开发环境，不能用于上线环境
          */
-        axios.post('http://localhost:3000/api/login', { username, password })
+        /*axios.post('/login', { username, password })
           .then(({data}) => {
             // {data} --> 对response解构赋值
             // 请求成功
@@ -99,10 +100,10 @@ class Login extends Component {
               // 保存用户数据  redux  localStorage / sessionStorage
               this.props.saveUser(data.data);
               // 跳转到 / 路由
-              /*
+              /!*
                 <Redirect to="/"/> 用于再render方法中进行重定向
                 this.props.history.replace('/'); 用于非render方法中进行路由跳转
-               */
+               *!/
               // return <Redirect to="/"/>
               this.props.history.replace('/');
             } else {
@@ -113,6 +114,24 @@ class Login extends Component {
           .catch((error) => {
             // 请求失败 - 登录失败
             message.error('未知错误，请联系管理员~');
+          })
+          .finally(() => {
+            // 不管成功/失败都会触发
+            // 清空密码
+            this.props.form.resetFields(['password']);
+          })*/
+        reqLogin(username, password)
+          .then((result) => {
+            // 登录成功
+            message.success('登录成功~');
+            // 保存用户数据  redux  localStorage / sessionStorage
+            this.props.saveUser(result);
+            // 跳转到 / 路由
+            this.props.history.replace('/');
+          })
+          .catch(() => {
+            // 清空密码
+            this.props.form.resetFields(['password']);
           })
       }
     })

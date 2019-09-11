@@ -3,9 +3,9 @@ import Home from '../components/home';
 
 const routes = [
   {
-    path: '/',
-    exact: true,
-    component: Home
+    path: '/', // 路由路径
+    exact: true, // 是否严格匹配路由路径
+    component: Home // 组件
   },
   {
     path: '/login',

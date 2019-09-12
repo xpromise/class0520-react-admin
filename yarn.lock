@@ -888,7 +888,7 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5":
   version "7.6.0"
   resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.6.0.tgz#4fc1d642a9fd0299754e8b5de62c631cf5568205"
   integrity sha1-T8HWQqn9Apl1Totd5ixjHPVWggU=
@@ -4890,6 +4890,13 @@ html-minifier@^3.5.20:
     relateurl "0.2.x"
     uglify-js "3.4.x"
 
+html-parse-stringify2@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/html-parse-stringify2/download/html-parse-stringify2-2.0.1.tgz#dc5670b7292ca158b7bc916c9a6735ac8872834a"
+  integrity sha1-3FZwtyksoVi3vJFsmmc1rIhyg0o=
+  dependencies:
+    void-elements "^2.0.1"
+
 html-webpack-plugin@4.0.0-beta.5:
   version "4.0.0-beta.5"
   resolved "https://registry.npm.taobao.org/html-webpack-plugin/download/html-webpack-plugin-4.0.0-beta.5.tgz?cache=0&sync_timestamp=1563437816811&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhtml-webpack-plugin%2Fdownload%2Fhtml-webpack-plugin-4.0.0-beta.5.tgz#2c53083c1151bfec20479b1f8aaf0039e77b5513"
@@ -4988,6 +4995,25 @@ https-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/https-browserify/download/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   integrity sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
+
+i18next-browser-languagedetector@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/i18next-browser-languagedetector/download/i18next-browser-languagedetector-3.0.3.tgz#879ebe421685c70cc5cfa96191364a35ea7da742"
+  integrity sha1-h56+QhaFxwzFz6lhkTZKNep9p0I=
+
+i18next-xhr-backend@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.npm.taobao.org/i18next-xhr-backend/download/i18next-xhr-backend-3.1.2.tgz#f9da86c81981ac245325cb2dbfd4232a5b183676"
+  integrity sha1-+dqGyBmBrCRTJcstv9QjKlsYNnY=
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+
+i18next@^17.0.14:
+  version "17.0.14"
+  resolved "https://registry.npm.taobao.org/i18next/download/i18next-17.0.14.tgz#b736fcb8c84aa84c57bfad3caac7f8b5f92d85a4"
+  integrity sha1-tzb8uMhKqExXv608qsf4tfkthaQ=
+  dependencies:
+    "@babel/runtime" "^7.3.1"
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
   version "0.4.24"
@@ -8952,6 +8978,14 @@ react-error-overlay@^6.0.1:
   resolved "https://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-6.0.1.tgz?cache=0&sync_timestamp=1565737631154&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-error-overlay%2Fdownload%2Freact-error-overlay-6.0.1.tgz#b8d3cf9bb991c02883225c48044cb3ee20413e0f"
   integrity sha1-uNPPm7mRwCiDIlxIBEyz7iBBPg8=
 
+react-i18next@^10.12.4:
+  version "10.12.4"
+  resolved "https://registry.npm.taobao.org/react-i18next/download/react-i18next-10.12.4.tgz#181d8ff4f64b2f6a738a524a092a43e728ad807a"
+  integrity sha1-GB2P9PZLL2pzilJKCSpD5yitgHo=
+  dependencies:
+    "@babel/runtime" "^7.3.1"
+    html-parse-stringify2 "2.0.1"
+
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.9.0"
   resolved "https://registry.npm.taobao.org/react-is/download/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
@@ -9603,6 +9637,11 @@ schema-utils@^2.0.0, schema-utils@^2.0.1:
   dependencies:
     ajv "^6.10.2"
     ajv-keywords "^3.4.1"
+
+screenfull@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/screenfull/download/screenfull-5.0.0.tgz#5c2010c0e84fd4157bf852877698f90b8cbe96f6"
+  integrity sha1-XCAQwOhP1BV7+FKHdpj5C4y+lvY=
 
 select-hose@^2.0.0:
   version "2.0.0"
@@ -10744,6 +10783,11 @@ vm-browserify@^1.0.1:
   version "1.1.0"
   resolved "https://registry.npm.taobao.org/vm-browserify/download/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
   integrity sha1-vXbWojMj4sqP+hICjcBFWcdfkBk=
+
+void-elements@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/void-elements/download/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
+  integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
 import { Card, Button, Icon, Table, Modal } from 'antd';
 import { connect } from 'react-redux';
-import { getCategories, addCategory } from '@redux/action-creators';
+import { getCategories, addCategory, updateCategory } from '@redux/action-creators';
 
 import AddCategoryForm from './add-category-form';
+import UpdateCategoryForm from './update-category-form';
 
 import './index.less';
 
 @connect(
   (state) => ({categories: state.categories}),
-  { getCategories, addCategory }
+  { getCategories, addCategory, updateCategory }
 )
 class Category extends Component {
   state = {
     isShowAddCategoryModal: false,
+    isShowUpdateCategoryModal: false,
+    category: {}
   };
 
   addCategoryForm = React.createRef();
+  updateCategoryForm = React.createRef();
 
   columns = [
     {
@@ -25,25 +29,35 @@ class Category extends Component {
     },
     {
       title: '操作',
-      dataIndex: 'operation',
-      render: () => {
+      // dataIndex: 'operation',  // 写了dataIndex，render方法的参数就是对应的值。 不写得到就是整个对象
+      render: (category) => {
+        // console.log(category.name);
         return <div>
-          <Button type="link">修改分类</Button>
+          <Button type="link" onClick={this.showUpdateCategoryModal(category)}>修改分类</Button>
           <Button type="link">删除分类</Button>
         </div>
       }
     }
   ];
 
+  showUpdateCategoryModal = (category) => {
+    return () => {
+      this.setState({
+        isShowUpdateCategoryModal: true,
+        category
+      })
+    }
+  };
+
   componentDidMount() {
     // 发送请求，请求分类数据，更新redux状态
     this.props.getCategories();
   }
 
-  switchModal = (value) => {
+  switchModal = (key, value) => {
     return () => {
       this.setState({
-        isShowAddCategoryModal: value
+        [key]: value
       })
     }
   };
@@ -63,6 +77,31 @@ class Category extends Component {
         })
       }
     })
+  };
+
+  updateCategory = () => {
+    const form = this.updateCategoryForm.current;
+    // 检验表单
+    form.validateFields((err, values) => {
+      if (!err) {
+        // 表单校验通过
+        this.props.updateCategory(this.state.category._id, values.categoryName);
+        // 清空表单
+        form.resetFields();
+        // 隐藏对话框
+        this.setState({
+          isShowUpdateCategoryModal: false
+        })
+      }
+    })
+  };
+
+  hiddenUpdateCategoryModal = () => {
+    this.setState({
+      isShowUpdateCategoryModal: false
+    })
+    // 清空表单数据
+    this.updateCategoryForm.current.resetFields();
   };
 
   render() {
@@ -103,9 +142,9 @@ class Category extends Component {
       },
     ];*/
     const { categories } = this.props;
-    const { isShowAddCategoryModal } = this.state;
+    const { isShowAddCategoryModal, isShowUpdateCategoryModal, category } = this.state;
 
-    return <Card title="分类列表" extra={<Button type="primary" onClick={this.switchModal(true)}><Icon type="plus"/>分类列表</Button>}>
+    return <Card title="分类列表" extra={<Button type="primary" onClick={this.switchModal('isShowAddCategoryModal', true)}><Icon type="plus"/>分类列表</Button>}>
       <Table
         columns={this.columns}
         dataSource={categories}
@@ -126,9 +165,21 @@ class Category extends Component {
         okText="确认"
         cancelText="取消"
         width={300}
-        onCancel={this.switchModal(false)}
+        onCancel={this.switchModal('isShowAddCategoryModal', false)}
       >
         <AddCategoryForm ref={this.addCategoryForm}/>
+      </Modal>
+
+      <Modal
+        visible={isShowUpdateCategoryModal}
+        title="修改分类"
+        onOk={this.updateCategory}
+        okText="确认"
+        cancelText="取消"
+        width={300}
+        onCancel={this.hiddenUpdateCategoryModal}
+      >
+        <UpdateCategoryForm ref={this.updateCategoryForm} categoryName={category.name}/>
       </Modal>
     </Card>;
   }

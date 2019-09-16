@@ -44,18 +44,14 @@ class BasicLayout extends Component {
         <Header style={{ background: '#fff', padding: 0, height: 80 }} >
           <HeaderMain />
         </Header>
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+        <Content style={{ margin: '25px 16px 0 16px' }}>
+          <div style={{ padding: 24, background: '#fff', minHeight: 450 }}>
             {
               this.props.children
             }
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>欢迎使用硅谷后台管理系统~~</Footer>
       </Layout>
     </Layout>;
   }

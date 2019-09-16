@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 
 import { removeUser } from '@redux/action-creators';
-import { formatDate } from '@utils/tools';
+// import { formatDate } from '@utils/tools';
 import './index.less';
 
 @connect(

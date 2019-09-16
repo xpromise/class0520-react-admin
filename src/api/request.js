@@ -20,7 +20,7 @@ instance.interceptors.request.use(
     // 加上公共的请求头参数
     // config就是发送请求的配置信息（请求方法、请求头、请求参数。。。）
     if (token) {
-      config.headers.authorization = token;
+      config.headers.authorization = `Bearer ${token}`;
     }
 
     return config;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 
 import withCheckLogin from '@conts/with-check-login';
 import HeaderMain from './header-main';

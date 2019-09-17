@@ -39,10 +39,10 @@ class Product extends Component {
     {
       title: '操作',
       // dataIndex: 'status',
-      render: () => {
+      render: (product) => {
         return <div>
           <Button type="link">详情</Button>
-          <Button type="link">修改</Button>
+          <Button type="link" onClick={this.goSaveUpdate(product)}>修改</Button>
         </div>
       }
     }
@@ -60,8 +60,10 @@ class Product extends Component {
     this.getProducts(1, 3);
   }
 
-  goSaveUpdate = () => {
-    this.props.history.push('/product/saveupdate');
+  goSaveUpdate = (product) => {
+    return () => {
+      this.props.history.push('/product/saveupdate', product);
+    }
   };
 
   render() {
@@ -76,7 +78,7 @@ class Product extends Component {
         <Input placeholder="关键字" className="product-input"/>
         <Button type="primary">搜索</Button>
       </div>}
-      extra={<Button type="primary" onClick={this.goSaveUpdate}><Icon type="plus"/>添加商品</Button>}
+      extra={<Button type="primary" onClick={this.goSaveUpdate()}><Icon type="plus"/>添加商品</Button>}
     >
       <Table
         columns={this.columns}

@@ -13,7 +13,9 @@ export const reqUpdateCategory = (categoryId, categoryName) => axios.post('/cate
 
 export const reqGetProducts = (pageNum, pageSize) => axios.get('/product/list', { params: { pageNum, pageSize } });
 
+export const reqAddProduct = ({name, desc, price, categoryId, detail}) => axios.post('/product/add', { name, desc, price, categoryId, detail });
 
+export const reqUpdateProduct = ({name, desc, price, categoryId, detail, productId}) => axios.post('/product/update', { name, desc, price, categoryId, detail, productId });
 
 
 

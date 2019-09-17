@@ -99,7 +99,7 @@ class Category extends Component {
   hiddenUpdateCategoryModal = () => {
     this.setState({
       isShowUpdateCategoryModal: false
-    })
+    });
     // 清空表单数据
     this.updateCategoryForm.current.resetFields();
   };

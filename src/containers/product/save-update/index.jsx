@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import { Card, Icon, Input, Form, Button, Select, InputNumber } from 'antd';
-import { convertToRaw } from 'draft-js';
+import React, {Component} from 'react';
+import {Card, Icon, Input, Form, Button, Select, InputNumber} from 'antd';
+import {convertToRaw} from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import { connect } from 'react-redux';
-import { getCategories } from '@redux/action-creators';
+import {connect} from 'react-redux';
+import {getCategories} from '@redux/action-creators';
 
-import { reqAddProduct, reqUpdateProduct } from '@api';
+import {reqAddProduct, reqUpdateProduct} from '@api';
 
 import RichTextEditor from '../rich-text-editor';
 
-const { Item } = Form;
-const { Option } = Select;
+const {Item} = Form;
+const {Option} = Select;
 
 @connect(
   (state) => ({categories: state.categories}),
-  { getCategories }
+  {getCategories}
 )
 @Form.create()
 class SaveUpdate extends Component {
-  
+
   richTextEditor = React.createRef();
 
   submit = (e) => {
@@ -26,11 +26,11 @@ class SaveUpdate extends Component {
 
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const { editorState } = this.richTextEditor.current.state;
+        const {editorState} = this.richTextEditor.current.state;
         // 将 editorState 装换成 html 文本
         const detail = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         console.log(detail);
-        const { name, desc, price, categoryId } = values;
+        const {name, desc, price, categoryId} = values;
         console.log(name, desc, price, categoryId);
         // 发送请求
         const product = this.props.location.state;
@@ -56,10 +56,11 @@ class SaveUpdate extends Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
     const product = this.props.location.state;
 
-    return <Card title={<div><Icon type="arrow-left" onClick={this.goBack}/><span>{ product ? '更新' : '添加' }商品</span></div>}>
+    return <Card
+      title={<div><Icon type="arrow-left" onClick={this.goBack}/><span>{product ? '更新' : '添加'}商品</span></div>}>
       <Form labelCol={{span: 2}} wrapperCol={{span: 8}} onSubmit={this.submit}>
         <Item label="商品名称">
           {
@@ -67,7 +68,7 @@ class SaveUpdate extends Component {
               "name",
               {
                 rules: [
-                  { required: true, message: '请输入商品名称' }
+                  {required: true, message: '请输入商品名称'}
                 ],
                 initialValue: product ? product.name : ''
               }
@@ -82,7 +83,7 @@ class SaveUpdate extends Component {
               'desc',
               {
                 rules: [
-                  { required: true, message: '请输入商品描述' }
+                  {required: true, message: '请输入商品描述'}
                 ],
                 initialValue: product ? product.desc : ''
               }
@@ -97,7 +98,7 @@ class SaveUpdate extends Component {
               'categoryId',
               {
                 rules: [
-                  { required: true, message: '请选择商品分类' }
+                  {required: true, message: '请选择商品分类'}
                 ],
                 initialValue: product ? product.categoryId : ''
               }

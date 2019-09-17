@@ -70,7 +70,7 @@ class LeftNav extends Component {
       if (menu.children) {
         for (let j = 0; j < menu.children.length; j++) {
           const cMenu = menu.children[j];
-          if (cMenu.key === pathname) {
+          if (pathname.startsWith(cMenu.key)) {
             return menu.key;
           }
         }
@@ -84,7 +84,12 @@ class LeftNav extends Component {
       if (menu.children) {
         for (let j = 0; j < menu.children.length; j++) {
           const cMenu = menu.children[j];
-          if (cMenu.key === pathname) {
+          /*
+            /product
+            /product/saveupdate
+            startsWith 以...开头
+           */
+          if (pathname.startsWith(cMenu.key)) {
             return cMenu.title;
           }
         }
@@ -104,11 +109,13 @@ class LeftNav extends Component {
   componentDidMount() {
     const { location : {pathname} } = this.props;
     const title = this.findTitle(pathname);
+    console.log(title);
     this.props.setTitle(title);
   }
 
   render() {
-    const { pathname } = this.props.location;
+    let { pathname } = this.props.location;
+    pathname = pathname.startsWith('/product') ? '/product' : pathname;
 
     const menus = this.createMenu();
 

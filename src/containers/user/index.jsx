@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Card, Button, Table, Modal } from 'antd';
 import dayjs from "dayjs";
+import { connect } from 'react-redux';
+import { getRoles } from '@redux/action-creators';
+import { reqGetUsers, reqAddUser } from '@api';
 
 import AddUserForm from './add-user-form';
 import UpdateUserForm from './update-user-form';
 
+@connect(
+  (state) => ({roles: state.roles}),
+  { getRoles }
+)
 class User extends Component {
   state = {
-    users: [{
-      _id: "5c7dafe855fb843490b93a49",
-      createTime: 1551740904866,
-      email: "aaa@aaa.com",
-      phone: "123456789",
-      roleId: "5c7d222c12d5e51908cc0380",
-      username: "aaa"
-    }], //用户数组
+    users: [], //用户数组
     isShowAddUserModal: false, //是否展示创建用户的标识
     isShowUpdateUserModal: false, //是否展示更新用户的标识
   };
@@ -43,6 +43,10 @@ class User extends Component {
     {
       title: '所属角色',
       dataIndex: 'roleId',
+      render: (roleId) => {
+        const role = this.props.roles.find((role) => role._id === roleId);
+        return role && role.name;
+      }
     },
     {
       title: '操作',
@@ -55,8 +59,35 @@ class User extends Component {
     }
   ];
 
+  componentDidMount() {
+    reqGetUsers()
+      .then((res) => {
+        this.setState({
+          users: res
+        })
+      });
+
+    if (this.props.roles.length) return;
+    this.props.getRoles();
+  }
+
   // 创建用户的回调函数
-  addUser = () => {};
+  addUser = async () => {
+    // 收集表单数据
+    const form = this.addUserFormRef.current.props.form;
+    const values =form.getFieldsValue();
+    // 发送请求
+    const result = await reqAddUser(values);
+    console.log(result);
+    // 更新状态
+    // 隐藏对话框
+    this.setState({
+      users: [...this.state.users, result],
+      isShowAddUserModal: false
+    });
+    // 重置表单
+    form.resetFields();
+  };
 
   // 更新用户的回调函数
   updateUser = () => {
@@ -73,6 +104,7 @@ class User extends Component {
   
   render () {
     const { users, isShowAddUserModal, isShowUpdateUserModal } = this.state;
+    const { roles } = this.props;
     
     return (
       <Card
@@ -101,7 +133,7 @@ class User extends Component {
           okText='确认'
           cancelText='取消'
         >
-          <AddUserForm ref={this.addUserFormRef}/>
+          <AddUserForm wrappedComponentRef={this.addUserFormRef} roles={roles}/>
         </Modal>
   
         <Modal

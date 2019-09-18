@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+  function fn() {
+    console.log(this);
+    return 123;
+  }
+
+  // fn(); // window
+
+  const obj = {
+    fn
+  };
+
+  // obj.fn(); // obj
+
+  const obj2 = { name: 'jack' };
+  const result = fn.call(obj2, 1, 2, 3, 4); // obj2
+  console.log(result);
+  
+  // fn(); // window
+  
+  Function.prototype.myCall = function (target, ...args) {
+    /*
+      target 要改变this指向的目标对象
+      ...args 剩下所有参数（作为函数的实参）
+      this 指向调用的函数
+     */
+    target.__proto__._fn = this;
+    const result = target._fn(...args);
+    // 将target的_fn属性删除掉
+    delete target.__proto__._fn;
+    return result;
+  };
+
+  Function.prototype.myApply = function (target, args) {
+    /*
+      target 要改变this指向的目标对象
+      ...args 剩下所有参数（作为函数的实参）
+      this 指向调用的函数
+     */
+    target.__proto__._fn = this;
+    const result = target._fn(...args);
+    // 将target的_fn属性删除掉
+    delete target.__proto__._fn;
+    return result;
+  };
+
+  Function.prototype.myBind = function (target, ...args1) {
+    /*
+      target 要改变this指向的目标对象
+      ...args 剩下所有参数（作为函数的实参）
+      this 指向调用的函数
+     */
+    return (...args2) => {
+      return this.myCall(target, ...args1, ...args2);
+    };
+  };
+
+  const result1 = fn.myCall(obj2);
+  console.log(result1);
+
+
+  function foo(a, b) {
+    console.log(a, b);
+    console.log(this);
+    return this;
+  }
+
+  const newFoo = foo.bind(obj2, 1, 2);
+  newFoo(3, 4);
+
+</script>
+</body>
+</html>

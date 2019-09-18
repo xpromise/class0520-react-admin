@@ -4,6 +4,8 @@ import Product from '@conts/product';
 import SaveUpdate from '@conts/product/save-update';
 import User from '@conts/user';
 import Role from '@conts/role';
+import Bar from '@comps/bar';
+import Pie from '@comps/pie';
 
 const routes = [
   {
@@ -35,6 +37,16 @@ const routes = [
     path: '/role', // 路由路径
     exact: true, // 是否严格匹配路由路径
     component: Role // 组件
+  },
+  {
+    path: '/charts/bar', // 路由路径
+    exact: true, // 是否严格匹配路由路径
+    component: Bar // 组件
+  },
+  {
+    path: '/charts/pie', // 路由路径
+    exact: true, // 是否严格匹配路由路径
+    component: Pie // 组件
   },
 ];
 

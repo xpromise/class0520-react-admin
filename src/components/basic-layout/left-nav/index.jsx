@@ -9,12 +9,21 @@ import menus from '@config/menus';
 const { SubMenu } = Menu;
 
 @connect(
-  null,
+  (state) => ({menus: state.user.user.menus}),
   { setTitle }
 )
 @withTranslation()
 @withRouter
 class LeftNav extends Component {
+
+  constructor(props) {
+    super(props);
+    let { pathname } = this.props.location;
+    pathname = pathname.startsWith('/product') ? '/product' : pathname;
+    this.newMenus = this.filterMenus();
+    this.menus = this.createMenu(this.newMenus);
+    this.openKeys = this.findOpenKeys(pathname);
+  }
 
   createItem = (menu) => {
     return <Menu.Item key={menu.key}>
@@ -25,7 +34,7 @@ class LeftNav extends Component {
     </Menu.Item>
   };
 
-  createMenu = () => {
+  createMenu = (menus) => {
     return menus.map((menu) => {
       // 判断是否是二级菜单
       if (menu.children) {
@@ -50,6 +59,30 @@ class LeftNav extends Component {
         return this.createItem(menu);
       }
     })
+  };
+
+  filterMenus = () => {
+    return menus.reduce((prev, curr) => {
+      /*
+        prev 上一次返回值
+        curr 当前遍历元素的值
+       */
+      // 判断一级菜单
+      const result = this.props.menus.includes(curr.key);
+      if (result) {
+        prev.push(curr);
+      } else if (curr.children) {
+        const cMenus = curr.children.filter((menu) => this.props.menus.includes(menu.key));
+        if (cMenus.length) {
+          // 不能修改原数据
+          // 覆盖children属性
+          // curr.children = cMenus;
+          prev.push({...curr, children: cMenus});
+        }
+      }
+
+      return prev;
+    }, [])
   };
 
   findOpenKeys = (pathname) => {
@@ -78,7 +111,7 @@ class LeftNav extends Component {
     }
   };
 
-  findTitle = (pathname) => {
+  findTitle = (pathname, menus) => {
     for (let i = 0; i < menus.length; i++) {
       const menu = menus[i];
       if (menu.children) {
@@ -99,16 +132,17 @@ class LeftNav extends Component {
         }
       }
     }
+    return 'Not Match';
   };
 
   select = ({key}) => {
-    const title = this.findTitle(key);
+    const title = this.findTitle(key, this.newMenus);
     this.props.setTitle(title);
   };
 
   componentDidMount() {
     const { location : {pathname} } = this.props;
-    const title = this.findTitle(pathname);
+    const title = this.findTitle(pathname, this.newMenus);
     console.log(title);
     this.props.setTitle(title);
   }
@@ -117,19 +151,15 @@ class LeftNav extends Component {
     let { pathname } = this.props.location;
     pathname = pathname.startsWith('/product') ? '/product' : pathname;
 
-    const menus = this.createMenu();
-
-    const openKeys = this.findOpenKeys(pathname);
-
     return <Menu
       theme="dark"
       defaultSelectedKeys={[pathname]}
-      defaultOpenKeys={[openKeys]}
+      defaultOpenKeys={[this.openKeys]}
       mode="inline"
       onSelect={this.select}
     >
       {
-        menus
+        this.menus
       }
     </Menu>;
   }

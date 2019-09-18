@@ -7,9 +7,13 @@ import {
   SET_TITLE,
   GET_CATEGORIES_SUCCESS,
   ADD_CATEGORY_SUCCESS,
-  UPDATE_CATEGORY_SUCCESS
+  UPDATE_CATEGORY_SUCCESS,
+  GET_ROLES_SUCCESS,
+  ADD_ROLE_SUCCESS,
+  UPDATE_ROLE_SUCCESS
 } from './action-types';
-import { reqGetCategories, reqAddCategory, reqUpdateCategory } from '@api';
+import { reqGetCategories, reqAddCategory, reqUpdateCategory, reqGetRoles, reqAddRole, reqUpdateRole } from '@api';
+import {async} from "q";
 
 // 保存用户数据
 export const saveUser = (user) => ({type: SAVE_USER, data: user});
@@ -46,5 +50,29 @@ export const updateCategory = (categoryId, categoryName) => {
   return async (dispatch) => {
     const result = await reqUpdateCategory(categoryId, categoryName);
     dispatch(updateCategorySuccess(result));
+  }
+};
+
+const getRolesSuccess = (roles) => ({type: GET_ROLES_SUCCESS, data: roles});
+export const getRoles = () => {
+  return async (dispatch) => {
+    const result = await reqGetRoles();
+    dispatch(getRolesSuccess(result));
+  }
+};
+
+const addRoleSuccess = (role) => ({type: ADD_ROLE_SUCCESS, data: role});
+export const addRole = (name) => {
+  return async (dispatch) => {
+    const result = await reqAddRole(name);
+    dispatch(addRoleSuccess(result));
+  }
+};
+
+const updateRoleSuccess = (role) => ({type: UPDATE_ROLE_SUCCESS, data: role});
+export const updateRole = (roleId, authName, menus) => {
+  return async (dispatch) => {
+    const result = await reqUpdateRole(roleId, authName, menus);
+    dispatch(updateRoleSuccess(result));
   }
 };

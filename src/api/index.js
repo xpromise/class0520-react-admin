@@ -19,6 +19,12 @@ export const reqUpdateProduct = ({name, desc, price, categoryId, detail, product
 
 export const reqSearchProducts = ({searchKey, searchValue, pageNum, pageSize}) => axios.get('/product/search', {params: { [searchKey]: searchValue , pageNum, pageSize }})
 
+export const reqGetRoles = () => axios.get('/role/get');
+
+export const reqAddRole = (name) => axios.post('/role/add', { name });
+
+export const reqUpdateRole = (roleId, authName, menus) => axios.post('/role/update', { roleId, authName, menus });
+
 
 
 

@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import withCheckLogin from '@conts/with-check-login';
 import HeaderMain from './header-main';
 import LeftNav from './left-nav';
+import ThemePicker from './theme-picker';
 import { withTranslation } from 'react-i18next';
 
 import logo from '@assets/images/logo.png';
@@ -52,6 +53,7 @@ class BasicLayout extends Component {
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>欢迎使用硅谷后台管理系统~~</Footer>
+        <ThemePicker />
       </Layout>
     </Layout>;
   }

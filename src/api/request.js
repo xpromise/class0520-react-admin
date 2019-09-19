@@ -3,7 +3,10 @@
  */
 import axios from 'axios';
 import { message } from 'antd';
+import NProgress from 'nprogress';
 import store from '@redux/store';
+
+import 'nprogress/nprogress.css';
 
 // 创建axios的实例
 const instance = axios.create({
@@ -23,6 +26,8 @@ instance.interceptors.request.use(
       config.headers.authorization = `Bearer ${token}`;
     }
 
+    NProgress.start();
+
     return config;
   },
   /*(err) => {
@@ -36,6 +41,8 @@ instance.interceptors.response.use(
     // result就是响应体数据
     const result = response.data;
 
+    NProgress.done();
+
     if (result.status === 0) {
       // 功能成功 --> 后面触发then
       return result.data;
@@ -47,6 +54,7 @@ instance.interceptors.response.use(
     }
   },
   (error) => {
+    NProgress.done();
     // 请求失败 --> 响应状态码 400 500
     console.log('axios请求失败：', error);
     message.error('未知错误，请联系管理员~');
